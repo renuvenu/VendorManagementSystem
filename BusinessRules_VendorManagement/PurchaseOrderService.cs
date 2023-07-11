@@ -1,6 +1,6 @@
 ﻿namespace BusinessRules_VendorManagement
 {
-    public class Class1
+    public class PurchaseOrderService
     {
 
     }
