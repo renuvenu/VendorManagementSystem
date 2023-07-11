@@ -30,7 +30,7 @@ namespace VendorManagement.Controllers
             {
                 ProductDetail productdetail = new ProductDetail();
 
-                productdetail.ProductId = new Guid();
+                productdetail.Id = new Guid();
                 productdetail.VendorId = new Guid();
                 productdetail.ProductName = insertProductDetailRequest.ProductName;
                 productdetail.Price  = insertProductDetailRequest.Price;
@@ -50,14 +50,14 @@ namespace VendorManagement.Controllers
 
         [HttpPut]
 
-        [Route("{ProductId:guid}")] 
-        public async Task<IActionResult> UpdatePersonDetail([FromRoute] Guid ProductId, UpdateProductDetailRequest updateProductDetailRequest)
+        [Route("{Id:guid}")] 
+        public async Task<IActionResult> UpdatePersonDetail([FromRoute] Guid Id, UpdateProductDetailRequest updateProductDetailRequest)
         {
 
 
             if (updateProductDetailRequest != null)
             {
-                var productdetailResult = await productdetailDBContext1.ProductDetails.FirstOrDefaultAsync(x => x.ProductId.Equals(ProductId));
+                var productdetailResult = await productdetailDBContext1.ProductDetails.FirstOrDefaultAsync(x => x.Id.Equals(Id));
 
                 if (productdetailResult != null)
                 {
@@ -81,17 +81,17 @@ namespace VendorManagement.Controllers
 
         [HttpGet]
 
-        [Route("{ProductId}")]
-        public async Task<IActionResult> GetElementById([FromRoute] Guid ProductId)
+        [Route("{Id}")]
+        public async Task<IActionResult> GetElementById([FromRoute] Guid Id)
         {
-            return await Task.FromResult<IActionResult>(Ok(productdetailDBContext1.ProductDetails.Where(x => x.ProductId.Equals(ProductId))));
+            return await Task.FromResult<IActionResult>(Ok(productdetailDBContext1.ProductDetails.Where(x => x.Id.Equals(Id))));
         }
 
         [HttpDelete]
-        [Route("{ProductId:guid}")] 
-        public async Task<IActionResult> DeletePersonDetail([FromRoute] Guid ProductId)
+        [Route("{Id:guid}")] 
+        public async Task<IActionResult> DeletePersonDetail([FromRoute] Guid Id)
         {
-            var productdetailResult = productdetailDBContext1.ProductDetails.FirstOrDefault(x => x.ProductId.Equals(ProductId));
+            var productdetailResult = productdetailDBContext1.ProductDetails.FirstOrDefault(x => x.Id.Equals(Id));
 
             if (productdetailResult != null)
             {

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DataAccess_VendorManagement.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class productdetails : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,15 +15,15 @@ namespace DataAccess_VendorManagement.Migrations
                 name: "ProductDetails",
                 columns: table => new
                 {
-                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     VendorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ProductName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ProductDescription = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Price = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    ProductName = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    ProductDescription = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProductDetails", x => x.ProductId);
+                    table.PrimaryKey("PK_ProductDetails", x => x.Id);
                 });
         }
 

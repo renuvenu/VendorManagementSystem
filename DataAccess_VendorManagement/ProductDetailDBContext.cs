@@ -9,4 +9,4 @@ namespace DataAccess_VendorManagement
 
         public DbSet<ProductDetail>  ProductDetails { get; set; }
     }
-}
+};

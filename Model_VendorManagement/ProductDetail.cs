@@ -6,20 +6,22 @@ namespace Model_VendorManagement
     public class ProductDetail
     {
         [Required]
-        public Guid ProductId { get; set; }
+        public Guid Id { get; set; }
 
-        [ForeignKey("VentorDetails")]
+        [ForeignKey("VentorManagement")]
 
         public Guid VendorId { get; set; }
 
         [Required]
+        [MaxLength(255)]
         public string? ProductName { get; set; }
 
-        
+        [MaxLength(255)]
         public string? ProductDescription { get; set; }
 
         [Required]
-        public string? Price { get; set;}
+        [Column(TypeName = "decimal(28, 2)")]
+        public decimal? Price { get; set;}
 
         
     }

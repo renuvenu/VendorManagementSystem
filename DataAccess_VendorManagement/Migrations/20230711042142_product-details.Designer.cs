@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess_VendorManagement.Migrations
 {
     [DbContext(typeof(ProductDetailDBContext))]
-    [Migration("20230710151159_init")]
-    partial class init
+    [Migration("20230711042142_product-details")]
+    partial class productdetails
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,25 +27,27 @@ namespace DataAccess_VendorManagement.Migrations
 
             modelBuilder.Entity("Model_VendorManagement.ProductDetail", b =>
                 {
-                    b.Property<Guid>("ProductId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Price")
+                    b.Property<decimal?>("Price")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("ProductDescription")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("ProductName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<Guid>("VendorId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("ProductId");
+                    b.HasKey("Id");
 
                     b.ToTable("ProductDetails");
                 });

@@ -24,25 +24,27 @@ namespace DataAccess_VendorManagement.Migrations
 
             modelBuilder.Entity("Model_VendorManagement.ProductDetail", b =>
                 {
-                    b.Property<Guid>("ProductId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Price")
+                    b.Property<decimal?>("Price")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("ProductDescription")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("ProductName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<Guid>("VendorId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("ProductId");
+                    b.HasKey("Id");
 
                     b.ToTable("ProductDetails");
                 });
