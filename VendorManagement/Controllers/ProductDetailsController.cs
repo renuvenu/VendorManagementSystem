@@ -1,0 +1,107 @@
+﻿using DataAccess_VendorManagement;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Model_VendorManagement;
+
+namespace VendorManagement.Controllers
+{
+    [ApiController]
+    [Route("api/[Controller]")]
+    public class ProductDetailsController : Controller
+    {
+        private readonly ProductDetailDBContext productdetailDBContext1;
+
+        public ProductDetailsController(ProductDetailDBContext productdetailDBContext1)
+        {
+            this.productdetailDBContext1 = productdetailDBContext1;
+        }
+        [HttpGet]
+
+        public async Task<IActionResult> GetProductDetail()
+        {
+            return Ok(await productdetailDBContext1.ProductDetails.ToListAsync());
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> InsertProductDetail(InsertProductDetailRequest insertProductDetailRequest)
+        {
+
+            if (insertProductDetailRequest != null)
+            {
+                ProductDetail productdetail = new ProductDetail();
+
+                productdetail.ProductId = new Guid();
+                productdetail.VendorId = new Guid();
+                productdetail.ProductName = insertProductDetailRequest.ProductName;
+                productdetail.Price  = insertProductDetailRequest.Price;
+                productdetail.ProductDescription = insertProductDetailRequest.ProductDescription;
+
+
+                await productdetailDBContext1.ProductDetails.AddAsync(productdetail);
+                await productdetailDBContext1.SaveChangesAsync();
+
+                return Ok(productdetail);
+            }
+            else
+            {
+                return BadRequest("Product Detail is not available");
+            }
+        }
+
+        [HttpPut]
+
+        [Route("{ProductId:guid}")] 
+        public async Task<IActionResult> UpdatePersonDetail([FromRoute] Guid ProductId, UpdateProductDetailRequest updateProductDetailRequest)
+        {
+
+
+            if (updateProductDetailRequest != null)
+            {
+                var productdetailResult = await productdetailDBContext1.ProductDetails.FirstOrDefaultAsync(x => x.ProductId.Equals(ProductId));
+
+                if (productdetailResult != null)
+                {
+
+                    productdetailResult.ProductName = updateProductDetailRequest.ProductName;
+                    productdetailResult.Price = updateProductDetailRequest.Price;
+                    productdetailResult.ProductDescription = updateProductDetailRequest.ProductDescription;
+
+                    productdetailDBContext1.ProductDetails.Update(productdetailResult);
+
+                    await productdetailDBContext1.SaveChangesAsync();
+                }
+
+                return Ok(productdetailResult);
+            }
+            else
+            {
+                return BadRequest("Product is not available");
+            }
+        }
+
+        [HttpGet]
+
+        [Route("{ProductId}")]
+        public async Task<IActionResult> GetElementById([FromRoute] Guid ProductId)
+        {
+            return await Task.FromResult<IActionResult>(Ok(productdetailDBContext1.ProductDetails.Where(x => x.ProductId.Equals(ProductId))));
+        }
+
+        [HttpDelete]
+        [Route("{ProductId:guid}")] 
+        public async Task<IActionResult> DeletePersonDetail([FromRoute] Guid ProductId)
+        {
+            var productdetailResult = productdetailDBContext1.ProductDetails.FirstOrDefault(x => x.ProductId.Equals(ProductId));
+
+            if (productdetailResult != null)
+            {
+                productdetailDBContext1.ProductDetails.Remove(productdetailResult);
+                await productdetailDBContext1.SaveChangesAsync();
+            }
+
+            return Ok(productdetailResult);
+        }
+
+
+    }
+}
