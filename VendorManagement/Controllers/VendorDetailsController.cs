@@ -47,7 +47,43 @@ namespace VendorManagement.Controllers
             await dbContextAccess.SaveChangesAsync();
             return Ok(vendorDetails);
 
-        } 
+        }
+
+        [HttpPut]
+        [Route("editvendor/{id:guid}")]
+        public async Task<IActionResult> UpdatePersonDetails([FromRoute] Guid id, VendorDetailsRequest updatevendorDetails)
+        {
+            if (updatevendorDetails != null)
+            {
+                var vendorDetails = await dbContextAccess.VendorDetails.FirstOrDefaultAsync(x => x.Id == id);
+
+                if (vendorDetails != null)
+                {
+
+                    vendorDetails.VendorName = updatevendorDetails.VendorName;
+                    vendorDetails.IsActive = true;
+                    vendorDetails.AddressLine1 = updatevendorDetails.AddressLine1;
+                    vendorDetails.AddressLine2 = updatevendorDetails.AddressLine2;
+                    vendorDetails.City = updatevendorDetails.City;
+                    vendorDetails.State = updatevendorDetails.State;
+                    vendorDetails.PostalCode = updatevendorDetails.PostalCode;
+                    vendorDetails.Country = updatevendorDetails.Country;
+                    vendorDetails.TelePhone1 = updatevendorDetails.TelePhone1;
+                    vendorDetails.TelePhone2 = updatevendorDetails.TelePhone2;
+                    vendorDetails.VendorEmail = updatevendorDetails.VendorEmail;
+                    vendorDetails.VendorWebsite = updatevendorDetails.VendorWebsite;
+
+                    dbContextAccess.VendorDetails.Update(vendorDetails);
+                    await dbContextAccess.SaveChangesAsync();
+                }
+
+                return Ok(vendorDetails);
+            }
+            else
+            {
+                return BadRequest("Not available");
+            }
+        }
 
         [HttpDelete]
         [Route("{id:guid}")]
@@ -64,15 +100,16 @@ namespace VendorManagement.Controllers
         }
 
         [HttpGet]
-        [Route("/vendor/vendordetails")]
-        public async Task<IActionResult> DetailOfVendor([FromHeader] Guid userId)
+        [Route("/vendor/vendordetails/{userId}")]
+        public async Task<IActionResult> DetailOfVendor([FromRoute] Guid userId)
         {
             bool person = dbContextAccess.VendorDetails.Any(x => x.Id == userId);
             if (person)
             {
-                var list = dbContextAccess.VendorDetails.Where(x => x.Id == userId);
+                var list = dbContextAccess.VendorDetails.Where(x => x.IsActive == true);
                 if (list.Count() > 0)
                 {
+                    
                     return Ok(await list.ToListAsync());
                 }
                 return Ok("No History record found");
