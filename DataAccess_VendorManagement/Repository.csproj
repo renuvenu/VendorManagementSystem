@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Model_VendorManagement\Model_VendorManagement.csproj" />
+    <ProjectReference Include="..\Model_VendorManagement\Model.csproj" />
   </ItemGroup>
 
 </Project>
