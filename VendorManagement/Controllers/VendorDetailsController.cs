@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Model_VendorManagement;
 using Model_VendorManagement.Requests;
+using System;
+using System.Reflection;
 
 namespace VendorManagement.Controllers
 {
@@ -25,29 +27,31 @@ namespace VendorManagement.Controllers
         [HttpPost]
         public async Task<IActionResult> InsertVendorDetails(VendorDetailsRequest vendorDetailsRequest)
         {
+             VendorDetails vendorDetails = new VendorDetails();
+                vendorDetails.Id = new Guid();
+                vendorDetails.VendorName = vendorDetailsRequest.VendorName;
+                vendorDetails.IsActive = true;
+                vendorDetails.AddressLine1 = vendorDetailsRequest.AddressLine1;
+                vendorDetails.AddressLine2 = vendorDetailsRequest.AddressLine2;
+                vendorDetails.City = vendorDetailsRequest.City;
+                vendorDetails.State = vendorDetailsRequest.State;
+                vendorDetails.PostalCode = vendorDetailsRequest.PostalCode;
+                vendorDetails.Country = vendorDetailsRequest.Country;
+                vendorDetails.TelePhone1 = vendorDetailsRequest.TelePhone1;
+                vendorDetails.TelePhone2 = vendorDetailsRequest.TelePhone2;
+                vendorDetails.VendorEmail = vendorDetailsRequest.VendorEmail;
+                vendorDetails.VendorWebsite = vendorDetailsRequest.VendorWebsite;
 
-            VendorDetails vendorDetails = new VendorDetails();
-            vendorDetails.Id = new Guid();
-            vendorDetails.VendorName= vendorDetailsRequest.VendorName;
-            vendorDetails.IsActive = true;
-            vendorDetails.AddressLine1= vendorDetailsRequest.AddressLine1;
-            vendorDetails.AddressLine2 = vendorDetailsRequest.AddressLine2;
-            vendorDetails.City= vendorDetailsRequest.City;
-            vendorDetails.State= vendorDetailsRequest.State;
-            vendorDetails.PostalCode= vendorDetailsRequest.PostalCode;
-            vendorDetails.Country= vendorDetailsRequest.Country;
-            vendorDetails.TelePhone1=vendorDetailsRequest.TelePhone1;
-            vendorDetails.TelePhone2 = vendorDetailsRequest.TelePhone2;
-            vendorDetails.VendorEmail= vendorDetailsRequest.VendorEmail;
-            vendorDetails.VendorWebsite= vendorDetailsRequest.VendorWebsite;
-
-
+            
 
             await dbContextAccess.VendorDetails.AddAsync(vendorDetails);
             await dbContextAccess.SaveChangesAsync();
             return Ok(vendorDetails);
 
         }
+
+       
+
 
         [HttpPut]
         [Route("editvendor/{id:guid}")]
@@ -103,16 +107,16 @@ namespace VendorManagement.Controllers
         [Route("/vendor/vendordetails/{userId}")]
         public async Task<IActionResult> DetailOfVendor([FromRoute] Guid userId)
         {
-            bool person = dbContextAccess.VendorDetails.Any(x => x.Id == userId);
+            bool person = dbContextAccess.VendorDetails.Any(x => x.Id == userId && x.IsActive == true);
             if (person)
             {
-                var list = dbContextAccess.VendorDetails.Where(x => x.IsActive == true);
+                var list = dbContextAccess.VendorDetails.Where(x => x.Id==userId);
                 if (list.Count() > 0)
                 {
                     
                     return Ok(await list.ToListAsync());
                 }
-                return Ok("No History record found");
+                return Ok("No Record found");
             }
             else
             {
