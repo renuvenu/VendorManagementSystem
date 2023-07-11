@@ -15,6 +15,12 @@ builder.Services.AddDbContext<DbContextAccess>(options => options.UseSqlServer(
 
 );
 
+builder.Services.AddDbContext<ProductDetailDBContext>(options => options.UseSqlServer(
+
+    builder.Configuration.GetConnectionString("ConnectionString"))
+
+);
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
