@@ -1,6 +1,7 @@
 ﻿using DataAccess_VendorManagement;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Model.Requests;
 using Model_VendorManagement;
 
 namespace VendorManagement.Controllers

@@ -10,5 +10,7 @@ namespace DataAccess_VendorManagement
 
         public DbSet<VendorDetails> VendorDetails { get; set; }
 
+        public DbSet<ProductDetail> ProductDetails { get; set; }
+
     }
 }

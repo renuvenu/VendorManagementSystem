@@ -4,14 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Model_VendorManagement
+namespace Model.Requests
 {
-    public class UpdateProductDetailRequest
+    public class InsertProductDetailRequest
     {
         public string? ProductName { get; set; }
 
         public string? ProductDescription { get; set; }
 
+
         public decimal? Price { get; set; }
+
+
     }
 }

@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DataAccess_VendorManagement\DataAccess_VendorManagement.csproj" />
+    <ProjectReference Include="..\DataAccess_VendorManagement\Repository.csproj" />
   </ItemGroup>
 
 </Project>
