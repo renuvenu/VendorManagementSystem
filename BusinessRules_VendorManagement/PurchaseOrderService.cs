@@ -1,4 +1,4 @@
-﻿namespace BusinessRules_VendorManagement
+﻿namespace Services
 {
     public class PurchaseOrderService
     {
